@@ -60,6 +60,34 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
           }
         },
@@ -71,6 +99,9 @@
           "configurations": {
             "production": {
               "browserTarget": "landing:build:production"
+            },
+            "local": {
+              "browserTarget": "landing:build:local"
             }
           }
         },
@@ -119,10 +150,17 @@
           "configurations": {
             "production": {
               "devServerTarget": "landing:serve:production"
+            },
+            "local": {
+              "devServerTarget": "landing:serve:local"
             }
           }
         }
       }
-    }},
-  "defaultProject": "landing"
+    }
+  },
+  "defaultProject": "landing",
+  "cli": {
+    "analytics": "c34e428c-9941-4b95-b3a8-54a25915733d"
+  }
 }
