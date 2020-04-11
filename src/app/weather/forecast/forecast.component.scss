@@ -1,0 +1,30 @@
+:host {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-150px);
+}
+
+.forecast__item {
+  background-color: #fff;
+  border: 1px solid orangered;
+  border-bottom: none;
+  border-radius: 0;
+
+  p {
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  .temp {
+    font-weight: bold;
+  }
+
+  .day {
+    font-style: italic;
+  }
+}
+
+.forecast__item:last-child {
+  border-bottom: 1px solid orangered;
+}

@@ -1,4 +1,6 @@
-<p>forecast works!</p>
-
-<h2>Forecast Data:</h2>
-<div>{{ forecastData | json }}</div>
+<ul class="list-group">
+  <li *ngFor="let forecast of forecastData$ | async"  class="forecast__item list-group-item">
+    <p class="temp">{{ forecast.temp | number:'1.0-0' }}&#176;C</p>
+    <p class="day">{{ forecast.dt_txt | date: 'E' }}</p>
+  </li>
+</ul>

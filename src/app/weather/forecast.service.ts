@@ -7,19 +7,17 @@ import {
   switchMap,
   mergeMap,
   filter,
-  toArray,
+  toArray, share,
 } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
-interface WeatherData {
-  dt_txt: string;
-  main: {
-    temp: number;
-  };
-}
+import { Observable } from 'rxjs';
 
 interface OpenWeatherResponse {
-  list: WeatherData[];
+  list: {
+    dt_txt: string;
+    main: {
+      temp: number;
+    };
+  }[];
 }
 
 @Injectable({
@@ -70,6 +68,7 @@ export class ForecastService {
         };
       }),
       toArray(),
+      share(),
     );
   }
 }

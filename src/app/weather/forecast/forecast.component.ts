@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ForecastService } from '../forecast.service';
-import { toArray } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+interface ForecastData {
+  dt_txt: string;
+  temp: number;
+}
 
 @Component({
   selector: 'app-forecast',
@@ -8,19 +13,15 @@ import { toArray } from 'rxjs/operators';
   styleUrls: ['./forecast.component.scss'],
 })
 export class ForecastComponent implements OnInit {
-  forecastData: any;
+  forecastData$: Observable<ForecastData[]>;
 
   constructor(private forecastService: ForecastService) {}
 
   ngOnInit(): void {
     if (navigator) {
-      this.forecastService.getForecast().subscribe(
-        (forecastData) => {
-          console.log(forecastData);
-          this.forecastData = forecastData;
-        },
-        (err) => console.log(err),
-      );
+      this.forecastData$ = this.forecastService.getForecast();
+    } else {
+      console.log('Geolocation is not supported');
     }
   }
 }
