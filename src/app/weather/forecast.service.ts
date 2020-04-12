@@ -12,7 +12,7 @@ import {
   tap,
   catchError,
 } from 'rxjs/operators';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { NotificationsService } from '../notifications/notifications.service';
 
 interface OpenWeatherResponse {
@@ -46,14 +46,13 @@ export class ForecastService {
         (err) => subscriber.error(err),
       );
     }).pipe(
-      tap(
-        () => {
-          this.notificationsService.addSuccess('Weather forecast updated!');
-        },
-        () => {
-          this.notificationsService.addError('Failed to get location!');
-        },
-      ),
+      tap(() => {
+        this.notificationsService.addSuccess('Weather forecast updated!');
+      }),
+      catchError((err) => {
+        this.notificationsService.addError('Failed to get location!');
+        return throwError(err);
+      }),
     );
   }
 
