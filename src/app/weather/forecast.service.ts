@@ -7,9 +7,13 @@ import {
   switchMap,
   mergeMap,
   filter,
-  toArray, share,
+  toArray,
+  share,
+  tap,
+  catchError,
 } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
+import { NotificationsService } from '../notifications/notifications.service';
 
 interface OpenWeatherResponse {
   list: {
@@ -27,7 +31,10 @@ export class ForecastService {
   private baseUrl = 'https://api.openweathermap.org/data/2.5/forecast';
   private API_KEY = environment.weatherApiKey;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private notificationsService: NotificationsService,
+  ) {}
 
   getCurrentLocation() {
     return new Observable<Coordinates>((subscriber) => {
@@ -38,7 +45,16 @@ export class ForecastService {
         },
         (err) => subscriber.error(err),
       );
-    });
+    }).pipe(
+      tap(
+        () => {
+          this.notificationsService.addSuccess('Weather forecast updated!');
+        },
+        () => {
+          this.notificationsService.addError('Failed to get location!');
+        },
+      ),
+    );
   }
 
   getForecast() {

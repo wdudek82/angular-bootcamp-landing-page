@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ForecastService } from '../forecast.service';
 import { Observable } from 'rxjs';
+import { NotificationsService } from '../../notifications/notifications.service';
 
 interface ForecastData {
   dt_txt: string;
@@ -15,7 +16,10 @@ interface ForecastData {
 export class ForecastComponent implements OnInit {
   forecastData$: Observable<ForecastData[]>;
 
-  constructor(private forecastService: ForecastService) {}
+  constructor(
+    private forecastService: ForecastService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   ngOnInit(): void {
     if (navigator) {

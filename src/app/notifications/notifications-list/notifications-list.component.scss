@@ -1,0 +1,14 @@
+:host {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  right: 1rem;
+  bottom: 0;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 0.8rem;
+}

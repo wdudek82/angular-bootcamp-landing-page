@@ -1,1 +1,11 @@
-<p>notifications-list works!</p>
+<div
+  *ngFor="let message of messages$ | async"
+  class="alert"
+  [ngClass]="{
+    'alert-success': message.type === 'success',
+    'alert-danger': message.type === 'error'
+  }"
+>
+  {{ message.text }}
+  <button class="close" (click)="closeMessage(message.id)">&#10005;</button>
+</div>
