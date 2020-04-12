@@ -11,6 +11,7 @@ import {
   share,
   tap,
   catchError,
+  retry,
 } from 'rxjs/operators';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { NotificationsService } from '../notifications/notifications.service';
@@ -38,6 +39,7 @@ export class ForecastService {
 
   getCurrentLocation() {
     return new Observable<Coordinates>((subscriber) => {
+      console.log('fetching location...');
       navigator.geolocation.getCurrentPosition(
         (position) => {
           subscriber.next(position.coords);
@@ -46,11 +48,12 @@ export class ForecastService {
         (err) => subscriber.error(err),
       );
     }).pipe(
+      retry(1),
       tap(() => {
         this.notificationsService.addSuccess('Weather forecast updated!');
       }),
       catchError((err) => {
-        this.notificationsService.addError('Failed to get location!');
+        this.notificationsService.addError(err.message);
         return throwError(err);
       }),
     );

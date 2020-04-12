@@ -12,7 +12,7 @@ export interface Command {
   providedIn: 'root',
 })
 export class NotificationsService {
-  messagesInput$: Subject<Command>;
+  private messagesInput$: Subject<Command>;
   messagesOutput$: Observable<Command[]>;
 
   constructor() {

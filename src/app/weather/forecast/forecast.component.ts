@@ -18,7 +18,6 @@ export class ForecastComponent implements OnInit {
 
   constructor(
     private forecastService: ForecastService,
-    private notificationsService: NotificationsService,
   ) {}
 
   ngOnInit(): void {
