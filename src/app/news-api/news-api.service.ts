@@ -4,9 +4,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { map, pluck, switchMap, tap } from 'rxjs/operators';
 
+export interface ArticleSource {
+  name: string;
+}
+
 export interface Article {
   title: string;
   url: string;
+  source: ArticleSource;
 }
 
 interface NewsApiResponse {
@@ -25,10 +30,10 @@ export class NewsApiService {
 
   private pageInput$: Subject<number>;
   pageOutput$: Observable<Article[]>;
-  numberOfPages: Subject<number>;
+  numberOfPages$: Subject<number>;
 
   constructor(private http: HttpClient) {
-    this.numberOfPages = new Subject<number>();
+    this.numberOfPages$ = new Subject<number>();
     this.pageInput$ = new Subject<number>();
     this.pageOutput$ = this.pageInput$.pipe(
       map((page) => {
@@ -42,12 +47,11 @@ export class NewsApiService {
         });
       }),
       switchMap((params) => {
-        console.log('requst: news api');
         return this.http.get<NewsApiResponse>(this.baseUrl, { params });
       }),
       tap((response) => {
         const pages = Math.ceil(response.totalResults / this.pageSize);
-        this.numberOfPages.next(pages);
+        this.numberOfPages$.next(pages);
       }),
       pluck('articles'),
     );
@@ -55,5 +59,9 @@ export class NewsApiService {
 
   selectPage(page: number): void {
     return this.pageInput$.next(page);
+  }
+
+  getNumberOfPages(): Subject<number> {
+    return this.numberOfPages$;
   }
 }

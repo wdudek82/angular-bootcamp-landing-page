@@ -6,6 +6,11 @@
     class="list-group-item list-group-item-action"
     [href]="article.url"
     target="_blank"
-    >{{ article.title }}</a
+    >{{ article.title | split: article.source.name }}</a
   >
+  <app-paginator
+    [currentPage]="selectedPage"
+    [numberOfPages]="numberOfPages"
+    (pageChanged)="changeSelectedPage($event)"
+  ></app-paginator>
 </div>

@@ -7,6 +7,7 @@ import { WeatherModule } from './weather/weather.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationsModule } from './notifications/notifications.module';
 import { NewsApiModule } from './news-api/news-api.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,7 @@ import { NewsApiModule } from './news-api/news-api.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    SharedModule,
     WeatherModule,
     NotificationsModule,
     NewsApiModule,
